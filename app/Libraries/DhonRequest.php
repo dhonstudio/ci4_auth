@@ -13,7 +13,8 @@ class DhonRequest
      * @var mixed
      */
     protected $api_url = [
-        'development'   => 'http://localhost/ci4_api2/public/'
+        'development'   => 'http://localhost/ci4_api2/public/',
+        'testing'       => 'http://dev.dhonstudio.com/ci4/api2/',
     ];
 
     /**
