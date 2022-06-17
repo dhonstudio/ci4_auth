@@ -6,6 +6,7 @@
     Form Pack
     http://www.templatemo.com/preview/templatemo_418_form_pack 
     -->
+    <link rel="shortcut icon" type="image/png" href="<?= base_url("/{$favicon}"); ?>" />
     <title><?= $title ?></title>
     <meta name="keywords" content="" />
     <meta name="description" content="" />

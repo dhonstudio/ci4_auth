@@ -50,20 +50,24 @@
                         </div>
                         <div class="form-group">
                             <div class="col-md-12">
+                                <a href="forgot-password.html" class="text-center">Register</a>
+                            </div>
+
+                            <div class="col-md-12">
                                 <a href="forgot-password.html" class="text-center">Cannot login?</a>
                             </div>
                         </div>
                     </div>
                     <div class="templatemo-other-signin col-md-6">
                         <label class="margin-bottom-15">
-                            One-click sign in using other services. Credit goes to <a rel="nofollow" href="http://lipis.github.io/bootstrap-social/">Bootstrap Social</a> for social sign in buttons.
+                            One-click sign in using other services.
                         </label>
                         <a class="btn btn-block btn-social btn-facebook margin-bottom-15">
                             <i class="fa fa-facebook"></i> Sign in with Facebook
                         </a>
-                        <a class="btn btn-block btn-social btn-twitter margin-bottom-15">
+                        <!-- <a class="btn btn-block btn-social btn-twitter margin-bottom-15">
                             <i class="fa fa-twitter"></i> Sign in with Twitter
-                        </a>
+                        </a> -->
                         <a class="btn btn-block btn-social btn-google-plus">
                             <i class="fa fa-google-plus"></i> Sign in with Google
                         </a>
