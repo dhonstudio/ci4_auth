@@ -2,9 +2,6 @@
 
 namespace App\Libraries;
 
-use App\Models\ApiusersModel;
-use CodeIgniter\HTTP\Response;
-
 class DhonRequest
 {
     /**

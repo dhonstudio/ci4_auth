@@ -49,21 +49,17 @@ class DhonHit
      */
     public function collect()
     {
-        $this->_setIpAddress();
-        $this->_setEntity();
-        $this->_setSession();
-        $this->_setSource();
-        $this->_setPage();
         $this->_getHit();
     }
 
     /**
-     * Set ip address.
+     * Post the Hit.
      * 
      * @return void
      */
-    private function _setIpAddress()
+    private function _getHit()
     {
+        //~ ip_address
         $ip_address =
             !empty($_SERVER["HTTP_X_CLUSTER_CLIENT_IP"]) ? $_SERVER["HTTP_X_CLUSTER_CLIENT_IP"]
             : (!empty($_SERVER["HTTP_X_CLIENT_IP"]) ? $_SERVER["HTTP_X_CLIENT_IP"]
@@ -86,41 +82,13 @@ class DhonHit
             }
         }
 
-        $address_pre        = $this->dhonrequest->get("gethit/getAddressByIP?ip_address={$ip_address}");
-        $address            = $address_pre ? $address_pre['data'] : [];
-        $this->id_address   = empty($address) ? $this->dhonrequest->post('gethit/postAddress', [
-            'ip_address'    => $ip_address,
-            'ip_info'       => $this->dhonrequest->curl("http://ip-api.com/json/{$ip_address}")
-        ])['data']['id_address'] : $address['id_address'];
-    }
-
-    /**
-     * Set entity.
-     * 
-     * @return void
-     */
-    private function _setEntity()
-    {
+        //~ entity
         $entity = isset($_SERVER['HTTP_USER_AGENT']) ? htmlentities($_SERVER['HTTP_USER_AGENT']) : 'BOT';
 
-        $entities           = $this->dhonrequest->get('gethit/getAllEntities')['data'];
-        $entity_key         = array_search($entity, array_column($entities, 'entity'));
-        $entity_av          = !empty($entities) ? ($entity_key > -1 ? $entities[$entity_key] : 0) : 0;
-        $this->id_entity    = $entity_av === 0 ? $this->dhonrequest->post('gethit/postEntity', [
-            'entity' => $entity,
-        ])['data']['id'] : $entity_av['id'];
-    }
-
-    /**
-     * Set session.
-     * 
-     * @return void
-     */
-    private function _setSession()
-    {
+        //~ session
         $session_name   = 'DShC13v';
         $session_prefix = ENVIRONMENT === 'production' ? '__Secure-' : '__m-';
-        $session_secure = false;
+        $session_secure = ENVIRONMENT === 'production' ? true : false;
 
         if (isset($_SERVER['HTTP_USER_AGENT'])) {
             helper('text');
@@ -146,34 +114,10 @@ class DhonHit
             $session_value = "BOT";
         }
 
-        $session            = $this->dhonrequest->get("gethit/getSessionByCookie?session={$session_value}")['data'];
-        $this->id_session   = empty($session) ? $this->dhonrequest->post('gethit/postSession', [
-            'session' => $session_value,
-        ])['data']['id_session'] : $session['id_session'];
-    }
-
-    /**
-     * Set user source from.
-     * 
-     * @return void
-     */
-    private function _setSource()
-    {
+        //~ source
         $source_value       = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : base_url();
 
-        $source             = $this->dhonrequest->get("gethit/getSourceByReferer?source={$source_value}")['data'];
-        $this->id_source    = empty($source) ? $this->dhonrequest->post('gethit/postSource', [
-            'source' => $source_value,
-        ])['data']['id_source'] : $source['id_source'];
-    }
-
-    /**
-     * Set page visited.
-     * 
-     * @return void
-     */
-    private function _setPage()
-    {
+        //~ page
         if ($_GET) {
             $get_join = [];
             foreach ($_GET as $key => $value) {
@@ -185,25 +129,13 @@ class DhonHit
         }
         $page_value     = uri_string() ? uri_string() . $get : '/';
 
-        $page           = $this->dhonrequest->get("gethit/getPageByUri?page={$page_value}")['data'];
-        $this->id_page  = empty($page) ? $this->dhonrequest->post('gethit/postPage', [
-            'page' => $page_value,
-        ])['data']['id_page'] : $page['id_page'];
-    }
-
-    /**
-     * Post the Hit.
-     * 
-     * @return void
-     */
-    private function _getHit()
-    {
+        //~ hit
         $this->dhonrequest->post('gethit', [
-            'address'   => $this->id_address,
-            'entity'    => $this->id_entity,
-            'session'   => $this->id_session,
-            'source'    => $this->id_source,
-            'page'      => $this->id_page,
+            'address'   => $ip_address,
+            'entity'    => $entity,
+            'session'   => $session_value,
+            'source'    => $source_value,
+            'page'      => $page_value,
             'created_at' => date("Y-m-d H:i:s", time())
         ]);
     }
