@@ -25,7 +25,7 @@ class Paths
      *
      * @var string
      */
-    public $systemDirectory = __DIR__ . '/../../system';
+    public $systemDirectory = __DIR__ . '/../../../framework/ci4/system';
 
     /**
      * ---------------------------------------------------------------
